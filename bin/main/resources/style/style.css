@@ -1,0 +1,45 @@
+.root{
+    -fx-background-color: linear-gradient(to bottom,#1e3c72,#2a5298);
+}
+
+/* titulo */
+.title{
+    -fx-fill: white;
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+}
+
+/* label */
+.label{
+    -fx-text-fill: white;
+}
+
+/* textfield */
+.text-field{
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-padding: 5;
+    -fx-font-size: 14px;
+}
+
+/* menu button */
+.menu-button{
+    -fx-background-color: #00c6ff;
+    -fx-text-fill: rgb(255, 255, 255);
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+}
+
+/* resultado */
+.resultado{
+    -fx-fill: white;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+/* rectangulo resultado */
+.rectangle{
+    -fx-fill: #16a085;
+    -fx-arc-width: 10;
+    -fx-arc-height: 10;
+}

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox prefHeight="400.0" prefWidth="640.0"
+      xmlns="http://javafx.com/javafx/25"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="main.java.app.MainController"
+      stylesheets="@../../resources/style/style.css">
+
+    <children>
+
+        <AnchorPane VBox.vgrow="ALWAYS">
+
+            <children>
+
+                <Text text="Bienvenido a tu Aplicacion de Calculo"
+                      layoutX="36.0"
+                      layoutY="62.0"
+                      styleClass="title">
+
+                    <font>
+                        <Font name="Georgia Bold" size="29.0"/>
+                    </font>
+
+                </Text>
+
+                <Label alignment="CENTER"
+                       layoutX="134.0"
+                       layoutY="83.0"
+                       prefHeight="27.0"
+                       prefWidth="371.0"
+                       text="Ingresa los numeros que deseas calcular"
+                       textAlignment="CENTER"
+                       styleClass="subtitulo">
+
+                    <font>
+                        <Font name="Ebrima" size="18.0"/>
+                    </font>
+
+                </Label>
+
+                <TextField fx:id="num1"
+                           promptText="Num 1"
+                           layoutX="90.0"
+                           layoutY="181.0"
+                           styleClass="campo"/>
+
+                <TextField fx:id="num2"
+                           promptText="Num 2"
+                           layoutX="384.0"
+                           layoutY="181.0"
+                           styleClass="campo"/>
+
+                <MenuButton layoutX="274.0"
+                            layoutY="186.0"
+                            text="Opciones"
+                            styleClass="menu-btn">
+
+                    <items>
+
+                        <MenuItem text="Sumar" onAction="#sumar"/>
+                        <MenuItem text="Restar" onAction="#restar"/>
+                        <MenuItem text="Multiplicar" onAction="#multiplicar"/>
+                        <MenuItem text="Dividir" onAction="#dividir"/>
+
+                    </items>
+
+                </MenuButton>
+
+                <Rectangle arcHeight="5.0"
+                           arcWidth="5.0"
+                           height="28.0"
+                           layoutX="220.0"
+                           layoutY="260.0"
+                           width="250.0"
+                           styleClass="rectangulo"/>
+
+                <Text fx:id="resultado"
+                      text="Resultado:"
+                      layoutX="225.0"
+                      layoutY="282.0"
+                      styleClass="resultado">
+
+                    <font>
+                        <Font name="Javanese Text" size="23.0"/>
+                    </font>
+
+                </Text>
+
+            </children>
+
+        </AnchorPane>
+
+    </children>
+
+</VBox>
