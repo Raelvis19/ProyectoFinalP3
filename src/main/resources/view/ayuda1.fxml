@@ -50,7 +50,7 @@
 
             <children>
 
-                <!-- BOTÓN FLECHA -->
+                
                 <Button fx:id="btnVolver"
                         onAction="#cerrarAyuda"
                         prefWidth="100"

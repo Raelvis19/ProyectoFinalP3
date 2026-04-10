@@ -14,12 +14,12 @@
 
     <children>
 
-        <!-- 🔹 Contenido centrado -->
+    
         <VBox alignment="CENTER" spacing="25">
 
             <children>
 
-                <!-- Puntaje -->
+                
                 <VBox alignment="CENTER" spacing="5">
                     <children>
                         <Label text="Puntaje Mas Alto:" styleClass="texto" translateY="220"/>
@@ -27,8 +27,10 @@
                     </children>
                 </VBox>
 
-                <!-- Botón jugar -->
-                <Button mnemonicParsing="false"
+                
+                <Button fx:id="btnPlay"
+                        onAction="#play"
+                        mnemonicParsing="false"
                         prefHeight="40.0"
                         prefWidth="120.0"
                         text="JUGAR"
@@ -38,7 +40,7 @@
 
         </VBox>
 
-        <!-- 🔊 Botón sonido (FUERA del VBox) -->
+        
         <Button fx:id="btnSound"
                 onAction="#toggleSound"
                 StackPane.alignment="TOP_RIGHT"

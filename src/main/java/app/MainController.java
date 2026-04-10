@@ -22,6 +22,9 @@ public class MainController {
     @FXML
     private Button btnAyuda;
 
+    @FXML
+    private Button btnPlay;
+
     private MediaPlayer mediaPlayer;
     private boolean isPlaying = true;
 
@@ -30,13 +33,13 @@ public class MainController {
     
 
     public void initialize() {
-        // 🔊 Cargar imágenes
+        
         imgOn = new Image(getClass().getResource("../../resources/img/soundON.png").toExternalForm());
         imgOff = new Image(getClass().getResource("../../resources/img/soundOFF.png").toExternalForm());
 
         btnSound.setGraphic(new ImageView(imgOn));
 
-        //🎵 Inicializar audio global
+    
         audioManager.init();
     }
 
@@ -52,7 +55,7 @@ public class MainController {
         }
     }
 
-    @FXML
+        @FXML
         private void ayuda() throws Exception {
 
         FXMLLoader loader = new FXMLLoader(
@@ -62,6 +65,20 @@ public class MainController {
         Parent root = loader.load();
 
         Stage stage = (Stage) btnAyuda.getScene().getWindow();
+        stage.getScene().setRoot(root);
+        
+    }
+
+        @FXML
+        private void play() throws Exception {
+
+        FXMLLoader loader = new FXMLLoader(
+        getClass().getResource("../../resources/view/game.fxml")
+        );
+
+        Parent root = loader.load();
+
+        Stage stage = (Stage) btnPlay.getScene().getWindow();
         stage.getScene().setRoot(root);
         
     }
