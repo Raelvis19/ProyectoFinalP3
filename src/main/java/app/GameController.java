@@ -38,6 +38,9 @@ public class GameController {
     private boolean moverDerecha = true;
     private double velocidadUfo = 1;
 
+    private ImageView bala;
+    private boolean puedeDisparar = true;
+
     @FXML
     public void initialize() {
 
@@ -89,6 +92,7 @@ public class GameController {
                     switch (event.getCode()) {
                         case A -> moveLeft = true;
                         case D -> moveRight = true;
+                        case SPACE -> disparar();
                     }
                 });
 
@@ -233,5 +237,97 @@ public class GameController {
 
         animacion.setCycleCount(Timeline.INDEFINITE);
         animacion.play();
+    }
+
+    private void disparar() {
+
+    if (!puedeDisparar) return;
+
+    puedeDisparar = false;
+
+    bala = new ImageView(new Image(
+        getClass().getResource("/main/resources/img/15.png").toExternalForm()
+    ));
+
+    bala.setFitWidth(20);
+    bala.setFitHeight(50);
+
+    
+    bala.setLayoutX(nave.getLayoutX() + nave.getTranslateX() + 45);
+    bala.setLayoutY(nave.getLayoutY());
+
+    gamePane.getChildren().add(bala);
+
+    moverBala();
+    }
+
+    private void moverBala() {
+
+    new AnimationTimer() {
+        @Override
+        public void handle(long now) {
+
+            if (bala == null) {
+                stop();
+                return;
+            }
+
+            
+            bala.setLayoutY(bala.getLayoutY() - 8);
+
+        
+            if (bala.getLayoutY() < 0) {
+                gamePane.getChildren().remove(bala);
+                bala = null;
+                puedeDisparar = true;
+                stop();
+            }
+
+            
+            detectarColision();
+        }
+    }.start();
+    }
+
+    private void detectarColision() {
+
+        for (int f = 0; f < filas; f++) {
+            for (int c = 0; c < columnas; c++) {
+
+            ImageView enemigo = enemigos[f][c];
+
+            if (enemigo == null) continue;
+
+            if (bala != null && bala.getBoundsInParent().intersects(enemigo.getBoundsInParent())) {
+
+        
+            int fila = f;
+            int columna = c;
+
+            
+            Image explosion = new Image(
+                getClass().getResource("/main/resources/img/explosion-01.png").toExternalForm()
+            );
+
+            enemigo.setImage(explosion);
+
+            Timeline eliminar = new Timeline(
+                new KeyFrame(Duration.millis(200), e -> {
+                    gamePane.getChildren().remove(enemigo);
+                    enemigos[fila][columna] = null; 
+                })
+            );
+
+            eliminar.play();
+
+            
+            gamePane.getChildren().remove(bala);
+            bala = null;
+            puedeDisparar = true;
+
+            return;
+                    }
+            }
+        }
     }
 }
