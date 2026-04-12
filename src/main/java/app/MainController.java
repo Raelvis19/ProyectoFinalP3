@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
@@ -30,6 +31,9 @@ public class MainController {
 
     private Image imgOn;
     private Image imgOff;
+
+    @FXML
+    private Label lblScore;
     
 
     public void initialize() {
@@ -38,8 +42,8 @@ public class MainController {
         imgOff = new Image(getClass().getResource("../../resources/img/soundOFF.png").toExternalForm());
 
         btnSound.setGraphic(new ImageView(imgOn));
-
-    
+        gameData.puntajeAlto = HighScoreManager.cargarHighScore();
+        lblScore.setText(String.valueOf(gameData.puntajeAlto));
         audioManager.init();
     }
 

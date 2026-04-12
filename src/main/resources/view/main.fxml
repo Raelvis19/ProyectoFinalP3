@@ -54,7 +54,7 @@
                 <VBox alignment="CENTER" spacing="5">
                     <children>
                         <Label text="Puntaje Mas Alto:" styleClass="texto" translateY="220"/>
-                        <Label text="0.00" styleClass="score" translateY="220"/>
+                        <Label fx:id="lblScore" text="0.00" styleClass="score" translateY="220"/>
                     </children>
                 </VBox>
 

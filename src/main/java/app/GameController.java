@@ -62,9 +62,9 @@ public class GameController {
     @FXML
     private Label lblScore;
 
-    private int puntaje = 0;
+    //private int puntaje = 0;
 
-    private int puntajeAlto = 0;
+   // private  static int puntajeAlto = 0;
 
     private int score = 0;
 
@@ -73,7 +73,8 @@ public class GameController {
     @FXML
     public void initialize() {
 
-        
+        gameData.puntajeAlto = HighScoreManager.cargarHighScore();
+        gameData.puntaje = 0;
         modelos = new Image[][]{
             {
                 new Image(getClass().getResource("/main/resources/img/gg1.png").toExternalForm()),
@@ -458,15 +459,17 @@ public class GameController {
 
     if (vidas == 0) {
         try {
+
+            if (gameData.puntaje > gameData.puntajeAlto) {
+            gameData.puntajeAlto = gameData.puntaje;
+            HighScoreManager.guardarHighScore(gameData.puntajeAlto);
+            }
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../../resources/view/gameover.fxml"));
             Parent root = loader.load();
 
-            if (puntaje > puntajeAlto) {
-            puntajeAlto = puntaje;
-            }
-
             GameOverController controller = loader.getController();
-            controller.setScores(puntaje, puntajeAlto);
+            controller.setScores(gameData.puntaje, gameData.puntajeAlto);
 
            Stage stage = (Stage) gamePane.getScene().getWindow();
           
@@ -480,6 +483,8 @@ public class GameController {
 
     private void sumarPuntos(int puntos, double x, double y) {
     score += puntos;
+    gameData.puntaje += puntos;
+   
     lblScore.setText(String.valueOf(score));
 
     mostrarPuntosFlotantes(x, y, puntos);

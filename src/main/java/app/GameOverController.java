@@ -14,6 +14,12 @@ public class GameOverController {
 
     @FXML
     private Label lblHighScore;
+   
+
+   // @FXML
+   // public void initialize() {
+    //lblHighScore.setText(String.valueOf(gameData.score));
+    //}
 
     public void setScores(int score, int highScore) {
     lblScore.setText(String.valueOf(score));
@@ -27,6 +33,7 @@ public class GameOverController {
 
         Stage stage = (Stage) lblScore.getScene().getWindow();
         stage.getScene().setRoot(root); 
+        
     }
 
     @FXML
@@ -34,8 +41,8 @@ public class GameOverController {
        FXMLLoader loader = new FXMLLoader(getClass().getResource("../../resources/view/main.fxml"));
        Parent root = loader.load();
 
-        Stage stage = (Stage) lblScore.getScene().getWindow();
-        stage.getScene().setRoot(root); 
+       Stage stage = (Stage) lblScore.getScene().getWindow();
+       stage.getScene().setRoot(root); 
         
     }
 }
