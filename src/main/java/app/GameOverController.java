@@ -16,8 +16,8 @@ public class GameOverController {
     private Label lblHighScore;
 
     public void setScores(int score, int highScore) {
-        lblScore.setText("Puntaje: " + score);
-        lblHighScore.setText("Puntaje más alto: " + highScore);
+    lblScore.setText(String.valueOf(score));
+    lblHighScore.setText(String.valueOf(highScore));
     }
 
     @FXML

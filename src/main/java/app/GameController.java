@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.animation.AnimationTimer;
+import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
+import javafx.animation.ParallelTransition;
 import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -54,6 +58,15 @@ public class GameController {
     private Image corazonVacio;
 
     private int vidas = 3;
+
+    @FXML
+    private Label lblScore;
+
+    private int puntaje = 0;
+
+    private int puntajeAlto = 0;
+
+    private int score = 0;
 
     private List<ImageView> balasEnemigas = new ArrayList<>();
 
@@ -273,6 +286,7 @@ public class GameController {
     }
 
     private void disparar() {
+    audioManager.reproducirDisparo();
 
     if (!puedeDisparar) return;
 
@@ -333,7 +347,7 @@ public class GameController {
 
             if (bala != null && bala.getBoundsInParent().intersects(enemigo.getBoundsInParent())) {
 
-        
+            
             int fila = f;
             int columna = c;
 
@@ -341,8 +355,9 @@ public class GameController {
             Image explosion = new Image(
                 getClass().getResource("/main/resources/img/explosion-01.png").toExternalForm()
             );
-
+            audioManager.reproducirExplosion();
             enemigo.setImage(explosion);
+            sumarPuntos(100, enemigo.getLayoutX(), enemigo.getLayoutY());
 
             Timeline eliminar = new Timeline(
                 new KeyFrame(Duration.millis(200), e -> {
@@ -357,6 +372,7 @@ public class GameController {
             gamePane.getChildren().remove(bala);
             bala = null;
             puedeDisparar = true;
+            
 
             return;
                     }
@@ -366,8 +382,9 @@ public class GameController {
 
     private void dispararEnemigo() {
 
-    // Buscar enemigos vivos
+
     List<ImageView> vivos = new ArrayList<>();
+    
 
     for (int f = 0; f < filas; f++) {
         for (int c = 0; c < columnas; c++) {
@@ -444,8 +461,12 @@ public class GameController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../../resources/view/gameover.fxml"));
             Parent root = loader.load();
 
+            if (puntaje > puntajeAlto) {
+            puntajeAlto = puntaje;
+            }
+
             GameOverController controller = loader.getController();
-           // controller.setScores(puntaje, puntajeAlto);
+            controller.setScores(puntaje, puntajeAlto);
 
            Stage stage = (Stage) gamePane.getScene().getWindow();
           
@@ -456,4 +477,37 @@ public class GameController {
        
     }
     }
+
+    private void sumarPuntos(int puntos, double x, double y) {
+    score += puntos;
+    lblScore.setText(String.valueOf(score));
+
+    mostrarPuntosFlotantes(x, y, puntos);
+    }
+
+    private void mostrarPuntosFlotantes(double x, double y, int puntos) {
+
+    Label texto = new Label("+" + puntos);
+    texto.setStyle("-fx-text-fill: yellow; -fx-font-size: 24px; -fx-font-weight: bold;");
+
+    texto.setLayoutX(x);
+    texto.setLayoutY(y);
+
+    gamePane.getChildren().add(texto);
+
+    
+    TranslateTransition mover = new TranslateTransition(Duration.seconds(1), texto);
+    mover.setByY(-50);
+
+    FadeTransition fade = new FadeTransition(Duration.seconds(1), texto);
+    fade.setFromValue(1);
+    fade.setToValue(0);
+
+    ParallelTransition animacion = new ParallelTransition(mover, fade);
+
+    animacion.setOnFinished(e -> gamePane.getChildren().remove(texto));
+
+    animacion.play();
+    }
+
 }
