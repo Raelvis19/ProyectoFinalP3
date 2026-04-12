@@ -12,7 +12,13 @@
            fx:controller="main.java.app.GameController">
 
     <children>
-        <AnchorPane fx:id="gamePane">
+        <AnchorPane fx:id="gamePane"
+                    prefWidth="1920"
+                    prefHeight="1080"
+                    minWidth="1920"
+                    minHeight="1080"
+                    maxWidth="1920"
+                    maxHeight="1080">
             <children>
                 <ImageView fitWidth="1920" fitHeight="1080" preserveRatio="false">
                     <image>

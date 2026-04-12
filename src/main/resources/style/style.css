@@ -61,8 +61,8 @@
 
 /* 🔹 TEXTO IMPORTANTE (puntaje, título pequeño) */
 .label.score {
-    -fx-text-fill: #00ffff;
-    -fx-font-size: 18px;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 30px;
     -fx-font-weight: bold;
 
     -fx-effect: dropshadow(gaussian, #00ffff, 10, 0.6, 0, 0);

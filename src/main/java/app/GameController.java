@@ -1,14 +1,22 @@
 package main.java.app;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 import javafx.util.Duration;
+
 
 public class GameController {
 
@@ -40,6 +48,14 @@ public class GameController {
 
     private ImageView bala;
     private boolean puedeDisparar = true;
+
+    private Image balaEnemigaImg;
+
+    private Image corazonVacio;
+
+    private int vidas = 3;
+
+    private List<ImageView> balasEnemigas = new ArrayList<>();
 
     @FXML
     public void initialize() {
@@ -83,6 +99,13 @@ public class GameController {
         };
 
         crearFormacion();
+        balaEnemigaImg = new Image(
+        getClass().getResource("/main/resources/img/14.png").toExternalForm()
+        );
+
+        corazonVacio = new Image(
+         getClass().getResource("/main/resources/img/corazonVacio.png").toExternalForm()
+        );
 
         
         nave.sceneProperty().addListener((obs, oldScene, newScene) -> {
@@ -107,9 +130,19 @@ public class GameController {
             }
         });
 
+      
+
         iniciarMovimiento();
         moverFormacion();
         animarFormacion();
+
+        Timeline disparoEnemigo = new Timeline(
+        new KeyFrame(Duration.seconds(2), e -> dispararEnemigo())
+        );
+
+        disparoEnemigo.setCycleCount(Timeline.INDEFINITE);
+        disparoEnemigo.play();
+        moverBalasEnemigas();
     }
 
     
@@ -329,5 +362,98 @@ public class GameController {
                     }
             }
         }
+    }
+
+    private void dispararEnemigo() {
+
+    // Buscar enemigos vivos
+    List<ImageView> vivos = new ArrayList<>();
+
+    for (int f = 0; f < filas; f++) {
+        for (int c = 0; c < columnas; c++) {
+
+            if (enemigos[f][c] != null) {
+                vivos.add(enemigos[f][c]);
+            }
+        }
+    }
+
+    if (vivos.isEmpty()) return;
+
+    
+    ImageView shooter = vivos.get((int)(Math.random() * vivos.size()));
+
+    
+    ImageView bala = new ImageView(balaEnemigaImg);
+    bala.setFitWidth(10);
+    bala.setFitHeight(30);
+
+    bala.setLayoutX(shooter.getLayoutX() + 20);
+    bala.setLayoutY(shooter.getLayoutY() + 40);
+
+    gamePane.getChildren().add(bala);
+    balasEnemigas.add(bala);
+    }
+
+    private void moverBalasEnemigas() {
+
+    new AnimationTimer() {
+        @Override
+        public void handle(long now) {
+
+            for (int i = 0; i < balasEnemigas.size(); i++) {
+
+                ImageView bala = balasEnemigas.get(i);
+
+        
+                bala.setTranslateY(bala.getTranslateY() + 4);
+
+                
+                if (bala.getBoundsInParent().intersects(nave.getBoundsInParent())) {
+
+                    gamePane.getChildren().remove(bala);
+                    balasEnemigas.remove(bala);
+
+                    perderVida();
+                    return;
+                }
+
+                
+                if (bala.getLayoutY() > gamePane.getHeight()) {
+                    gamePane.getChildren().remove(bala);
+                    balasEnemigas.remove(bala);
+                }
+            }
+        }
+    }.start();
+    }
+
+    private void perderVida() {
+
+    if (vidas > 0) {
+
+        vidas--; 
+
+        ImageView corazon = (ImageView) vidasBox.getChildren().get(vidas);
+
+        corazon.setImage(corazonVacio); 
+    }
+
+    if (vidas == 0) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../../resources/view/gameover.fxml"));
+            Parent root = loader.load();
+
+            GameOverController controller = loader.getController();
+           // controller.setScores(puntaje, puntajeAlto);
+
+           Stage stage = (Stage) gamePane.getScene().getWindow();
+          
+           stage.getScene().setRoot(root);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+       
+    }
     }
 }
