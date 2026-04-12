@@ -1,7 +1,7 @@
 # 👾 Space Invaders JavaFX
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Java-17-orange?style=for-the-badge&logo=java">
+  <img src="https://img.shields.io/badge/Java-25-orange?style=for-the-badge&logo=java">
   <img src="https://img.shields.io/badge/JavaFX-UI-blue?style=for-the-badge">
   <img src="https://img.shields.io/badge/Status-Completed-brightgreen?style=for-the-badge">
 </p>
