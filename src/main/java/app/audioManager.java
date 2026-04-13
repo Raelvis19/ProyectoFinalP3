@@ -64,4 +64,16 @@ public class audioManager {
     public static void reproducirExplosion() {
     if (!isMuted()) explosion.play();
     }
+
+    public static void stopMusic() {
+    if (mediaPlayer != null) {
+        mediaPlayer.stop();
+    }
+    }
+
+    public static void playMusic() {
+    if (mediaPlayer != null) {
+        mediaPlayer.play();
+    }
+    }
 }

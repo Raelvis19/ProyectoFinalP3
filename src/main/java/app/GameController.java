@@ -364,6 +364,9 @@ public class GameController {
                 new KeyFrame(Duration.millis(200), e -> {
                     gamePane.getChildren().remove(enemigo);
                     enemigos[fila][columna] = null; 
+                    if(todosMuertos()){
+                        ganarJuego();
+                    }
                 })
             );
 
@@ -513,6 +516,38 @@ public class GameController {
     animacion.setOnFinished(e -> gamePane.getChildren().remove(texto));
 
     animacion.play();
+    }
+
+    private void ganarJuego() {
+
+    try {
+        audioManager.stopMusic();
+        FXMLLoader loader = new FXMLLoader(
+            getClass().getResource("/main/resources/view/victoria.fxml")
+        );
+
+        Parent root = loader.load();
+
+        Stage stage = (Stage) gamePane.getScene().getWindow();
+        stage.getScene().setRoot(root);
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    }
+
+    private boolean todosMuertos() {
+
+    for (int f = 0; f < filas; f++) {
+        for (int c = 0; c < columnas; c++) {
+
+            if (enemigos[f][c] != null) {
+                return false; 
+            }
+        }
+    }
+
+    return true; 
     }
 
 }

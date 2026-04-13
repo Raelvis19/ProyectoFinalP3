@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane prefWidth="1920" prefHeight="1080"
+           xmlns="http://javafx.com/javafx/25"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="main.java.app.winController"
+           styleClass="victoria"
+           stylesheets="@../../resources/style/style.css">
+
+    <children>
+
+        <!-- 🌌 CAPA DE PARTÍCULAS -->
+        <AnchorPane fx:id="particlesPane"/>
+
+        <!-- 🏆 CONTENIDO -->
+        <VBox alignment="CENTER" spacing="30">
+
+            <children>
+
+                <Label fx:id="lblTitulo"
+                       text="VICTORIAA!!!"
+                       styleClass="win-title"/>
+
+                <Label text="Puntaje:" styleClass="texto"/>
+                <Label fx:id="lblScore" styleClass="score"/>
+
+                <Label text="High Score:" styleClass="texto"/>
+                <Label fx:id="lblHighScore" styleClass="score"/>
+
+                <VBox spacing="15" alignment="CENTER">
+                    <children>
+                        <Button text="Reiniciar" onAction="#reiniciar" styleClass="btn-neon"/>
+                        <Button text="Inicio" onAction="#inicio" styleClass="btn-neon"/>
+                    </children>
+                </VBox>
+
+            </children>
+
+        </VBox>
+
+    </children>
+
+</StackPane>

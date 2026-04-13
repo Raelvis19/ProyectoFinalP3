@@ -1,3 +1,7 @@
+@font-face {
+    font-family: "Minecraft";
+    src: url("../fonts/Minecraft.ttf");
+}
 .root{
     -fx-background-image: url("../../resources/img/fondo1.png");
     -fx-background-size: cover;
@@ -5,6 +9,12 @@
     -fx-background-position: center center;
     -fx-font-family: "Consolas";
 
+}
+.root.victoria{
+     -fx-background-image: url("../../resources/img/back.png");
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
 }
 
 .root.tutorial{
@@ -92,4 +102,33 @@
     -fx-background-size: contain;
     -fx-background-color: transparent;
     -fx-border-width: 0px;
+}
+
+.win-background {
+    -fx-background-color: radial-gradient(center 50% 50%, radius 100%, #0a0020, #000000);
+}
+
+.win-title {
+    -fx-font-family: "Minecraft";
+    -fx-font-size: 90px;
+    -fx-text-fill: #beffff;
+    -fx-effect: dropshadow(gaussian, #00ffff, 30, 0.8, 0, 0);
+}
+
+.score {
+    -fx-font-size: 50px;
+    -fx-text-fill: #00ffff;
+}
+
+.texto {
+    -fx-font-size: 30px;
+    -fx-text-fill: white;
+}
+
+.btn-neon {
+    -fx-font-size: 24px;
+    -fx-background-color: transparent;
+    -fx-border-color: #00ffff;
+    -fx-border-radius: 10;
+    -fx-text-fill: #00ffff;
 }
