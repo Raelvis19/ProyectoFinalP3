@@ -80,7 +80,7 @@ src/
 ## ▶️ Cómo ejecutar el proyecto
 
 ```bash
-git clone https://github.com/tu-usuario/tu-repo.git
+git clone https://github.com/Raelvis19/ProyectoFinalP3.git
 ```
 
 1. Abre el proyecto en **VS Code** 
