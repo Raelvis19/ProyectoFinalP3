@@ -30,10 +30,10 @@
 ## 🎮 Gameplay
 
 <p align="center">
-  <img src="assets/gameplay.gif" width="600">
+  <img src="assets/Animation.gif" width="600">
 </p>
 
-> 💡 Reemplaza este GIF con gameplay real de tu juego
+
 
 ---
 
