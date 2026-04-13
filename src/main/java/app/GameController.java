@@ -7,6 +7,7 @@ import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.ParallelTransition;
+import javafx.animation.ScaleTransition;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
@@ -41,11 +42,13 @@ public class GameController {
 
     private ImageView[][] enemigos;
 
+    private boolean pausado = false;
+
     
     private Image[][] modelos;
 
-    private int filas = 3;
-    private int columnas = 6;
+    private int filas = 4;
+    private int columnas = 7;
 
     private boolean moverDerecha = true;
     private double velocidadUfo = 1;
@@ -69,6 +72,7 @@ public class GameController {
     private int score = 0;
 
     private List<ImageView> balasEnemigas = new ArrayList<>();
+    private List<ImageView> estrellas = new ArrayList<>();
 
     @FXML
     public void initialize() {
@@ -111,7 +115,8 @@ public class GameController {
                 new Image(getClass().getResource("/main/resources/img/nVerde3.png").toExternalForm())
             }
         };
-
+        crearEstrellas();
+        animarFondo();
         crearFormacion();
         balaEnemigaImg = new Image(
         getClass().getResource("/main/resources/img/14.png").toExternalForm()
@@ -130,6 +135,7 @@ public class GameController {
                         case A -> moveLeft = true;
                         case D -> moveRight = true;
                         case SPACE -> disparar();
+                        case ESCAPE -> togglePausa();
                     }
                 });
 
@@ -151,7 +157,7 @@ public class GameController {
         animarFormacion();
 
         Timeline disparoEnemigo = new Timeline(
-        new KeyFrame(Duration.seconds(2), e -> dispararEnemigo())
+        new KeyFrame(Duration.seconds(0.5), e -> dispararEnemigo())
         );
 
         disparoEnemigo.setCycleCount(Timeline.INDEFINITE);
@@ -165,7 +171,7 @@ public class GameController {
         new AnimationTimer() {
             @Override
             public void handle(long now) {
-
+                if (pausado) return;
                 double x = nave.getTranslateX();
 
                 if (moveLeft) {
@@ -209,7 +215,7 @@ public class GameController {
         new AnimationTimer() {
             @Override
             public void handle(long now) {
-
+                if (pausado) return;
                 boolean cambiarDireccion = false;
 
                 for (int f = 0; f < filas; f++) {
@@ -257,7 +263,7 @@ public class GameController {
 
     
     private void animarFormacion() {
-
+        if (pausado) return;
         Timeline animacion = new Timeline(
             new KeyFrame(Duration.millis(500), e -> {
 
@@ -312,8 +318,11 @@ public class GameController {
     private void moverBala() {
 
     new AnimationTimer() {
+        
         @Override
+        
         public void handle(long now) {
+            if (pausado) return;
 
             if (bala == null) {
                 stop();
@@ -421,7 +430,7 @@ public class GameController {
     new AnimationTimer() {
         @Override
         public void handle(long now) {
-
+            if (pausado) return;
             for (int i = 0; i < balasEnemigas.size(); i++) {
 
                 ImageView bala = balasEnemigas.get(i);
@@ -450,6 +459,8 @@ public class GameController {
     }
 
     private void perderVida() {
+        animarGolpeNave();
+        animarDanioNave();
 
     if (vidas > 0) {
 
@@ -548,6 +559,140 @@ public class GameController {
     }
 
     return true; 
+    }
+
+    private void animarDanioNave() {
+        if (pausado) return;
+    
+    Timeline parpadeo = new Timeline(
+        new KeyFrame(Duration.millis(0), e -> nave.setOpacity(0.3)),
+        new KeyFrame(Duration.millis(100), e -> nave.setOpacity(1))
+    );
+    parpadeo.setCycleCount(10);
+    parpadeo.setAutoReverse(true);
+    parpadeo.setOnFinished(e -> nave.setOpacity(1));
+
+
+    TranslateTransition shake = new TranslateTransition(Duration.millis(50), nave);
+    shake.setByX(10);
+    shake.setAutoReverse(true);
+    shake.setCycleCount(6);
+
+    
+    new ParallelTransition(parpadeo, shake).play();
+    }
+
+    private void animarGolpeNave() {
+
+    TranslateTransition shake = new TranslateTransition(Duration.millis(50), nave);
+    shake.setByX(10);
+    shake.setAutoReverse(true);
+    shake.setCycleCount(6);
+
+    ScaleTransition scale = new ScaleTransition(Duration.millis(150), nave);
+    scale.setToX(1.3);
+    scale.setToY(1.3);
+    scale.setAutoReverse(true);
+    scale.setCycleCount(2);
+
+    ParallelTransition efecto = new ParallelTransition(shake, scale);
+    efecto.play();
+    }
+
+    private void crearEstrellas() {
+
+    for (int i = 0; i < 50; i++) {
+
+        ImageView estrella = new ImageView(
+            new Image(getClass().getResource("/main/resources/img/start.png").toExternalForm())
+        );
+
+        estrella.setFitWidth(20);
+        estrella.setFitHeight(20);
+
+        estrella.setLayoutX(Math.random() * gamePane.getWidth());
+        estrella.setLayoutY(Math.random() * gamePane.getHeight());
+
+        estrellas.add(estrella);
+        gamePane.getChildren().add(estrella);
+    }
+    }
+
+    private void animarFondo() {
+
+    new AnimationTimer() {
+        @Override
+        public void handle(long now) {
+            if (pausado) return;
+            for (ImageView estrella : estrellas) {
+
+                estrella.setLayoutY(estrella.getLayoutY() + 2);
+
+                
+                if (estrella.getLayoutY() > gamePane.getHeight()) {
+                    estrella.setLayoutY(0);
+                    estrella.setLayoutX(Math.random() * gamePane.getWidth());
+                }
+            }
+        }
+    }.start();
+    }
+
+    @FXML
+    private void togglePausa() {
+
+    pausado = !pausado;
+
+    if (pausado) {
+        mostrarPausa();
+    } else {
+        ocultarPausa();
+    }
+    }
+
+    @FXML
+    private AnchorPane pauseMenu;
+
+    private void mostrarPausa() {
+    pauseMenu.setVisible(true);
+     // audioManager.pause();
+    }
+
+    private void ocultarPausa() {
+    pauseMenu.setVisible(false);
+   // audioManager.play();
+    }
+
+    @FXML
+    private void reiniciarJuego() {
+    try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/resources/view/game.fxml"));
+        Parent root = loader.load();
+
+        Scene scene = new Scene(root);
+
+        Stage stage = (Stage) gamePane.getScene().getWindow();
+        stage.setScene(scene);
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    }
+
+    @FXML
+    private void volverInicio() {
+    try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/resources/view/main.fxml"));
+        Parent root = loader.load();
+
+        Scene scene = new Scene(root);
+
+        Stage stage = (Stage) gamePane.getScene().getWindow();
+        stage.setScene(scene);
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
     }
 
 }

@@ -20,7 +20,7 @@ public class GameOverController {
    // public void initialize() {
     //lblHighScore.setText(String.valueOf(gameData.score));
     //}
-
+    
     public void setScores(int score, int highScore) {
     lblScore.setText(String.valueOf(score));
     lblHighScore.setText(String.valueOf(highScore));

@@ -7,6 +7,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class App extends Application {
@@ -18,7 +19,9 @@ public class App extends Application {
                 getClass().getResource("../../resources/view/main.fxml")
         );
 
-        
+        stage.getIcons().add(
+        new Image(getClass().getResourceAsStream("/main/resources/img/icon.png"))
+        );
 
         Scene scene = new Scene(loader.load());
 
